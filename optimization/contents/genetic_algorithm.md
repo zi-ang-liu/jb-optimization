@@ -42,7 +42,11 @@ The selection operator is used to select the chromosomes for reproduction. The b
 ### Tournament Selection
 In tournament selection, a subset of the population is randomly selected and the chromosome with the best fitness is chosen for reproduction. The size of the subset is called the tournament size. The tournament size is a parameter of the algorithm and can be tuned.
 
-In roulette wheel selection, the probability of selecting a chromosome is related to its fitness. For minimization problems, we can first transfer the fitness of chromosome $i$ to $\max\{f(x_1), f(x_2), \ldots, f(x_n)\} - f(x_i)$, where $$f(x_i)$$ is the fitness of chromosome $$i$$ and $$n$$ is the population size. Then, we can calculate the probability of selecting chromosome $$i$$ as $$p_i = \frac{f(x_i)}{\sum_{j=1}^n f(x_j)}$$. The chromosome is selected by generating a random number between 0 and 1 (spinning the roulette wheel).
+In roulette wheel selection, the probability of selecting a chromosome is related to its fitness. For minimization problems, we can first transfer the fitness of chromosome $i$ to 
+
+$y_i = \max\{f(x_1), f(x_2), \ldots, f(x_n)\} - f(x_i)$, 
+
+where $f(x_i)$ is the fitness of chromosome $i$ and $n$ is the population size. Then, we can calculate the probability of selecting chromosome $i$ as $p_i = \frac{f(x_i)}{\sum_{j=1}^n f(x_j)}$. The chromosome is selected by generating a random number between 0 and 1 (spinning the roulette wheel).
 
 ## Crossover
 
