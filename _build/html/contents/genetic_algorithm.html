@@ -382,9 +382,16 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initialization">Initialization</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#selection">Selection</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tournament-selection">Tournament Selection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#roulette-wheel-selection">Roulette Wheel Selection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rank-based-selection">Rank-based Selection</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#crossover">Crossover</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#crossover">Crossover</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#one-point-and-two-point-crossover">One-Point and Two-Point Crossover</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#order-crossover-ox">Order Crossover (OX)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simulated-binary-crossover-sbx">Simulated Binary Crossover (SBX)</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mutation">Mutation</a></li>
 </ul>
             </nav>
@@ -403,24 +410,24 @@ document.write(`
 <p class="admonition-title"><span class="caption-number">Algorithm 1 </span> (Genetic Algorithm)</p>
 <section class="algorithm-content" id="proof-content">
 <p><strong>Inputs</strong> population size <span class="math notranslate nohighlight">\(N\)</span></p>
-<p><strong>Output</strong> best individual <span class="math notranslate nohighlight">\(x_{best}\)</span></p>
+<p><strong>Output</strong> best individual <span class="math notranslate nohighlight">\(\mathbf{x}_{best}\)</span></p>
 <ol class="arabic simple">
 <li><p>Initialize population <span class="math notranslate nohighlight">\(P\)</span> with <span class="math notranslate nohighlight">\(N\)</span> individuals</p></li>
 <li><p>While not converged:</p>
 <ol class="arabic simple">
 <li><p><span class="math notranslate nohighlight">\(P' \leftarrow \emptyset\)</span></p></li>
-<li><p>While <span class="math notranslate nohighlight">\(|P'| &lt; N\)</span>:</p>
+<li><p>While <span class="math notranslate nohighlight">\(|P'| &lt; n\)</span>:</p>
 <ol class="arabic simple">
-<li><p>Select parents <span class="math notranslate nohighlight">\(x_1, x_2\)</span> from <span class="math notranslate nohighlight">\(P\)</span></p></li>
-<li><p>Generate offspring <span class="math notranslate nohighlight">\(x_1', x_2'\)</span> by crossover</p></li>
-<li><p>Mutate <span class="math notranslate nohighlight">\(x_1', x_2'\)</span></p></li>
-<li><p><span class="math notranslate nohighlight">\(P' \leftarrow P' \cup \{x_1', x_2'\}\)</span></p></li>
+<li><p>Select parents <span class="math notranslate nohighlight">\(\mathbf{x}_1, \mathbf{x}_2\)</span> from <span class="math notranslate nohighlight">\(P\)</span></p></li>
+<li><p>Generate offspring <span class="math notranslate nohighlight">\(\mathbf{x}_1', \mathbf{x}_2'\)</span> by crossover</p></li>
+<li><p>Mutate <span class="math notranslate nohighlight">\(\mathbf{x}_1'\)</span> and <span class="math notranslate nohighlight">\(\mathbf{x}_2'\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(P' \leftarrow P' \cup \{\mathbf{x}_1', \mathbf{x}_2'\}\)</span></p></li>
 </ol>
 </li>
 <li><p><span class="math notranslate nohighlight">\(P \leftarrow P'\)</span></p></li>
 </ol>
 </li>
-<li><p><span class="math notranslate nohighlight">\(x_{best} \leftarrow \arg\min_{x \in P} f(x)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{x}_{best} \leftarrow \arg\min_{\mathbf{x} \in P} f(\mathbf{x})\)</span></p></li>
 </ol>
 </section>
 </div><section id="overview">
@@ -444,16 +451,52 @@ document.write(`
 <section id="tournament-selection">
 <h3>Tournament Selection<a class="headerlink" href="#tournament-selection" title="Link to this heading">#</a></h3>
 <p>In tournament selection, a subset of the population is randomly selected and the chromosome with the best fitness is chosen for reproduction. The size of the subset is called the tournament size. The tournament size is a parameter of the algorithm and can be tuned.</p>
-<p>In roulette wheel selection, the probability of selecting a chromosome is related to its fitness. For minimization problems, we can first transfer the fitness of chromosome <span class="math notranslate nohighlight">\(i\)</span> to <span class="math notranslate nohighlight">\(\max\{f(x_1), f(x_2), \ldots, f(x_n)\} - f(x_i)\)</span>, where $<span class="math notranslate nohighlight">\(f(x_i)\)</span><span class="math notranslate nohighlight">\( is the fitness of chromosome \)</span><span class="math notranslate nohighlight">\(i\)</span><span class="math notranslate nohighlight">\( and \)</span><span class="math notranslate nohighlight">\(n\)</span><span class="math notranslate nohighlight">\( is the population size. Then, we can calculate the probability of selecting chromosome \)</span><span class="math notranslate nohighlight">\(i\)</span><span class="math notranslate nohighlight">\( as \)</span><span class="math notranslate nohighlight">\(p_i = \frac{f(x_i)}{\sum_{j=1}^n f(x_j)}\)</span>$. The chromosome is selected by generating a random number between 0 and 1 (spinning the roulette wheel).</p>
+</section>
+<section id="roulette-wheel-selection">
+<h3>Roulette Wheel Selection<a class="headerlink" href="#roulette-wheel-selection" title="Link to this heading">#</a></h3>
+<p>In roulette wheel selection, the probability of selecting a chromosome is related to its fitness. For minimization problems, we can first transfer the fitness of chromosome <span class="math notranslate nohighlight">\(i\)</span> to</p>
+<div class="math notranslate nohighlight">
+\[
+fitness(\mathbf{x}_i) \leftarrow \max_{j=1}^n f(\mathbf{x}_j) - f(\mathbf{x}_i)
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(fitness(\mathbf{x}_i)\)</span> is the fitness of chromosome <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(n\)</span> is the population size. Then, we can calculate the probability of selecting chromosome <span class="math notranslate nohighlight">\(i\)</span> as</p>
+<div class="math notranslate nohighlight">
+\[p_i = \frac{f(\mathbf{x}_i)}{\sum_{j=1}^n f(\mathbf{x}_j)}\]</div>
+<p>The chromosome is selected by generating a random number between 0 and 1 (spinning the roulette wheel).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">roulette_wheel_selection</span><span class="p">(</span><span class="n">population</span><span class="p">,</span> <span class="n">fitness</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">population</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">fitness</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">fitness</span><span class="p">)</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">population</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+
+<span class="n">population</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">fitness</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">selected</span> <span class="o">=</span> <span class="n">roulette_wheel_selection</span><span class="p">(</span><span class="n">population</span><span class="p">,</span> <span class="n">fitness</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="rank-based-selection">
+<h3>Rank-based Selection<a class="headerlink" href="#rank-based-selection" title="Link to this heading">#</a></h3>
 </section>
 </section>
 <section id="crossover">
 <h2>Crossover<a class="headerlink" href="#crossover" title="Link to this heading">#</a></h2>
-<p>The crossover operator is used to create new chromosomes by combining the information of two parent chromosomes. For different types of problems, there are different crossover methods. For binary variables, the most common crossover methods are one-point crossover and two-point crossover. The order-crossover (OX) can be used for sequencing problems. For continuous variables, the simulated binary crossover (SBX) is a popular method.</p>
+<p>The crossover operator is used to create new chromosomes by combining the information of two parent chromosomes. For different types of problems, there are different crossover methods. For binary variables, the most common crossover methods are <em>one-point crossover</em> and <em>two-point crossover</em>. The order-crossover (OX) can be used for sequencing problems. For continuous variables, the simulated binary crossover (SBX) is a popular method.</p>
+<section id="one-point-and-two-point-crossover">
+<h3>One-Point and Two-Point Crossover<a class="headerlink" href="#one-point-and-two-point-crossover" title="Link to this heading">#</a></h3>
 <p>In one-point crossover, a random point is selected and the information of the two parent chromosomes is exchanged.</p>
 <p>In two-point crossover, two random points are selected and the information between the two points is exchanged.</p>
+</section>
+<section id="order-crossover-ox">
+<h3>Order Crossover (OX)<a class="headerlink" href="#order-crossover-ox" title="Link to this heading">#</a></h3>
 <p>In sequence problems, it is important to maintain the chromosome as a valid sequence, a permutation of the numbers from 1 to $<span class="math notranslate nohighlight">\(n\)</span>$. The order-crossover (OX) is a method that can maintain the validity of the sequence.</p>
+</section>
+<section id="simulated-binary-crossover-sbx">
+<h3>Simulated Binary Crossover (SBX)<a class="headerlink" href="#simulated-binary-crossover-sbx" title="Link to this heading">#</a></h3>
 <p>In simulated binary crossover, the offspring is generated by $<span class="math notranslate nohighlight">\(y_1 = 0.5[(1+\beta)x_1 + (1-\beta)x_2]\)</span><span class="math notranslate nohighlight">\( and \)</span><span class="math notranslate nohighlight">\(y_2 = 0.5[(1-\beta)x_1 + (1+\beta)x_2]\)</span><span class="math notranslate nohighlight">\(, where \)</span><span class="math notranslate nohighlight">\(x_1\)</span><span class="math notranslate nohighlight">\( and \)</span><span class="math notranslate nohighlight">\(x_2\)</span><span class="math notranslate nohighlight">\( are the parent chromosomes and \)</span><span class="math notranslate nohighlight">\(\beta\)</span>$ is a parameter.</p>
+</section>
 </section>
 <section id="mutation">
 <h2>Mutation<a class="headerlink" href="#mutation" title="Link to this heading">#</a></h2>
@@ -519,9 +562,16 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initialization">Initialization</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#selection">Selection</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tournament-selection">Tournament Selection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#roulette-wheel-selection">Roulette Wheel Selection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rank-based-selection">Rank-based Selection</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#crossover">Crossover</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#crossover">Crossover</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#one-point-and-two-point-crossover">One-Point and Two-Point Crossover</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#order-crossover-ox">Order Crossover (OX)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simulated-binary-crossover-sbx">Simulated Binary Crossover (SBX)</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mutation">Mutation</a></li>
 </ul>
   </nav></div>

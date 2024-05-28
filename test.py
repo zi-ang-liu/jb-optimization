@@ -1,11 +1,13 @@
 import numpy as np
 
 
-def initialize_population(n, m):
-    return np.array([np.random.permutation(n) for _ in range(m)])
+def roulette_wheel_selection(population, fitness):
+    n = len(population)
+    p = fitness / np.sum(fitness)
+    idx = np.random.choice(n, p=p)
+    return population[idx]
 
 
-n = 10  # population size
-m = 5  # number of variables
-population = initialize_population(n, m)
-print(population)
+population = np.random.rand(10, 2)
+fitness = np.random.rand(10)
+selected = roulette_wheel_selection(population, fitness)
