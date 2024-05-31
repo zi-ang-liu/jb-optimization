@@ -6,6 +6,32 @@ The *branch* refers to the process of partitioning the solution space. The *boun
 
 One of the important applications of branch-and-bound is the ILP (Integer Linear Programming) problem. 
 
+## ILP Problem
+
+
+## General Branch-and-Bound Algorithm
+
+```{prf:algorithm} General Branch-and-Bound
+:label: bb-algorithm
+
+1. Initialize current best node $v^*$
+2. UB $\leftarrow \infty$
+3. Create a queue $Q$
+4. $Q.\text{put}(root)$
+5. While $Q$ is not empty:
+    1. $k \leftarrow$ $Q.\text{get}()$
+    2. generate children of node $k$, child $i \in \mathcal{S}(k)$
+    3. generate lower bounds $LB_i$ for each child $i$
+    4. For each $i \in \mathcal{S}(k)$:
+        1. If $LB_i \geq$ UB, kill child $i$
+        2. Else if child $i$ is a leaf node:
+            1. UB $\leftarrow$ value of child $i$
+            2. $v^* \leftarrow i$
+        3. Else:
+            1. $Q.\text{put}(i)$
+```
+
+
 ```python
 '''
 Branch and Bound algorithm for the shortest path problem
