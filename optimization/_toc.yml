@@ -12,6 +12,17 @@
 format: jb-book
 root: intro
 parts:
+  - caption: Gurobi
+    chapters:
+    - file: contents/gurobi/installation
+    - file: contents/gurobi/quick_start
+  - caption: Linear Programming
+    chapters:
+    - file: contents/lp/forms
+    - file: contents/lp/piecewise_linear
+  - caption: Integer Programming
+    chapters:
+    - file: contents/ip/branch_and_bound
   - caption: Metahueristics
     chapters:
     - file: contents/meta/initialization
@@ -19,3 +30,4 @@ parts:
     - file: contents/meta/particle_swarm
     - file: contents/meta/differential_evolution
     - file: contents/meta/constraint_handle
+
