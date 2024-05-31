@@ -22,6 +22,7 @@ parts:
     - file: contents/lp/piecewise_linear
   - caption: Integer Programming
     chapters:
+    - file: contents/ip/dijkstra
     - file: contents/ip/branch_and_bound
   - caption: Metahueristics
     chapters:

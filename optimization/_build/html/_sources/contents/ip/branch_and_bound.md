@@ -11,43 +11,6 @@ One of the important applications of branch-and-bound is the ILP (Integer Linear
 
 ## General Branch-and-Bound Algorithm
 
-\documentclass{standalone}
-\usepackage[ruled, linesnumbered]{algorithm2e}
-\usepackage{amsmath}
-
-\begin{document}
-
-\begin{algorithm}[H]
-
-  \SetAlgoLined
-  Initialize current best node $v^*$\;
-  UB $\leftarrow \infty$\;
-  Create a queue $Q$\;
-  $Q.\text{put}(root)$\;
-  \While{$Q \text{ is not empty}$}{
-    $k \leftarrow$ $Q.\text{get}()$\;
-    generate children of node $k$, child $i \in \mathcal{S}(k)$\;
-    generate lower bounds $LB_i$ for each child $i$\;
-    \ForEach{$i \in \mathcal{S}(k)$}{
-      \uIf{$LB_i \geq$ UB}{
-        kill child $i$\;
-      }
-      \uElseIf{\textnormal{child $i$ is a leaf node}}{
-          UB $\leftarrow$ value of child $i$\;
-          $v^* \leftarrow i$\;
-      }
-      \Else{
-        $Q.\text{put}(i)$\;
-      }
-    }
-  }
-          
-  \caption{A simple bandit algorithm}
-  
-  \end{algorithm}
-
-\end{document}
-
 ```{prf:algorithm} General Branch-and-Bound
 :label: bb-algorithm
 
