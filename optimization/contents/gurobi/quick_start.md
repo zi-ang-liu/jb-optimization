@@ -1,7 +1,5 @@
 # Quick Start
 
-# Quick Start
-
 Solving an optimization problem using Gurobi in Python usually involves the following steps:
 
 1. Create an empty model
