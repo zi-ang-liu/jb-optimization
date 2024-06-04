@@ -3,8 +3,7 @@
 ```{prf:algorithm} Dijkstra's Algorithm
 :label: dijkstra-algorithm
 
-**Input**: A graph $G = (V, E)$ and a source node $s$
-
+**Input**: A graph $G = (V, E)$ and a source node $s$   
 **Output**: The shortest path from $s$ to all $v \in V$
 
 1. $W \leftarrow {s}$, $p(s) \leftarrow 0$

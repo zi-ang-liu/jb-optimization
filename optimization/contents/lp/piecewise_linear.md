@@ -1,12 +1,12 @@
 # Piecewise Linear Convex Functions
 
-A *piecewise linear convex function* is a function that is defined by a set of linear functions, each defined over a different region of the domain. The piecewise linear convex function $$f: \mathbb{R}^n \to \mathbb{R}$$ can be written as:
+A *piecewise linear convex function* is a function that is defined by a set of linear functions, each defined over a different region of the domain. The piecewise linear convex function $f: \mathbb{R}^n \to \mathbb{R}$ can be written as:
 
 $$
 f(\mathbf{x}) = \max_{i=1, \dots, m} (\mathbf{a}_i' \mathbf{x} + d_i)
 $$
 
-A special case of piecewise linear convex functions is the absolute value function, which is defined by $$f(x) = |x| = \max(x, -x)$$.
+A special case of piecewise linear convex functions is the absolute value function, which is defined by $f(x) = |x| = \max(x, -x)$.
 
 ## Piecewise linear convex constraints
 
@@ -21,7 +21,7 @@ $$
 \end{align*}
 $$
 
-In this case, the constraint $$\max_{i=1, \dots, m} (\mathbf{a}_i' \mathbf{x} + d_i) \leq b$$ is a piecewise linear convex constraint. Such constraints are equivalent to a set of linear constraints as follows:
+In this case, the constraint $\max_{i=1, \dots, m} (\mathbf{a}_i' \mathbf{x} + d_i) \leq b$ is a piecewise linear convex constraint. Such constraints are equivalent to a set of linear constraints as follows:
 
 $$
 \mathbf{f}_i' \mathbf{x} + d_i \leq b \quad \forall i = 1, \dots, m
@@ -41,7 +41,7 @@ $$
 \end{align*}
 $$
 
-The objective function of this optimization problem is a piecewise linear convex function. The objective function is equivalent to minimizing $$z$$ subject to $$z \geq \mathbf{c}_i' \mathbf{x} + d_i$$ for all $$i = 1, \dots, m$$. 
+The objective function of this optimization problem is a piecewise linear convex function. The objective function is equivalent to minimizing $z$ subject to $z \geq \mathbf{c}_i' \mathbf{x} + d_i$ for all $i = 1, \dots, m$. 
 
 Therefore, this optimization problem can be reformulated as follows:
 

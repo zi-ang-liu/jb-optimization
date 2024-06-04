@@ -3,9 +3,8 @@
 ```{prf:algorithm} Genetic Algorithm
 :label: GA
 
-**Inputs** population size $N$
-
-**Output** best individual $\mathbf{x}_{best}$
+**Inputs:** population size $N$   
+**Output:** best individual $\mathbf{x}_{best}$
 
 1. Initialize population $P$ with $N$ individuals
 2. While not converged:
