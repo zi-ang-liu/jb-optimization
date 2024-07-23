@@ -54,6 +54,7 @@ def newsvendor(mu, sigma, h, p):
     # optimal order quantity
     critial_ratio = p/(p+h)
     Q = stats.norm.ppf(critial_ratio, mu, sigma)
+    return Q
 
 h = 0.18
 p = 0.7

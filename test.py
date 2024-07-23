@@ -1,89 +1,20 @@
-"""
-Dijkstra's algorithm for the shortest path problem
-"""
-
-import networkx as nx
-
-
-def dijkstra(graph, source):
-    # Initialize the distance from the source node to all other nodes
-    p = {}
-    p[source] = 0
-    for node in graph.nodes():
-        if node != source and graph.has_edge(source, node):
-            p[node] = graph[source][node]["weight"]
-        elif node != source:
-            p[node] = float("inf")
-
-    # initialize the weitgh of the edges, if (x, y) is not in the graph, the weight is infinity
-    weight = {}
-    for x in graph.nodes():
-        for y in graph.nodes():
-            if graph.has_edge(x, y):
-                weight[(x, y)] = graph[x][y]["weight"]
-            else:
-                weight[(x, y)] = float("inf")
-
-    # Initialize the set of visited nodes
-    W = set()
-    W.add(source)
-
-    # Main loop
-    while W != set(graph.nodes()):
-        # Find the node with the smallest distance
-        x = min(
-            (node for node in graph.nodes() if node not in W), key=lambda node: p[node]
-        )
-        W.add(x)
-        for y in graph.nodes():
-            if y not in W:
-                p[y] = min(p[y], p[x] + weight[(x, y)])
-
-    return p
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy.stats as stats
+from scipy.integrate import quad
 
 
-if __name__ == "__main__":
-    # Create a graph
-    graph = nx.DiGraph()
+def newsvendor(mu, sigma, h, p):
+    # optimal order quantity
+    critial_ratio = p / (p + h)
+    Q = stats.norm.ppf(critial_ratio, mu, sigma)
+    return Q
 
-    # Example 1 p. 130
-    graph.add_weighted_edges_from(
-        [
-            (0, 1, 2),
-            (0, 2, 1),
-            (1, 2, 3),
-            (1, 3, 3),
-            (2, 4, 1),
-            (4, 3, 2),
-            (3, 5, 2),
-            (4, 5, 5),
-        ]
-    )
 
-    # Example 2
-    # graph.add_weighted_edges_from(
-    #     [
-    #         (0, 1, 2),
-    #         (0, 2, 3),
-    #         (0, 3, 4),
-    #         (1, 4, 7),
-    #         (1, 5, 2),
-    #         (1, 2, 3),
-    #         (2, 5, 9),
-    #         (2, 6, 2),
-    #         (3, 6, 2),
-    #         (4, 7, 1),
-    #         (4, 8, 2),
-    #         (5, 8, 3),
-    #         (5, 6, 1),
-    #         (6, 8, 5),
-    #         (6, 9, 1),
-    #         (7, 10, 4),
-    #         (8, 10, 4),
-    #         (9, 10, 2),
-    #         (9, 8, 2),
-    #     ]
-    # )
+h = 0.18
+p = 0.7
+mu = 50
+sigma = 8
 
-    # Compute the shortest path from node 0
-    print(dijkstra(graph, 0))
+Q = newsvendor(mu, sigma, h, p)
+print("Q = {}".format(Q))
