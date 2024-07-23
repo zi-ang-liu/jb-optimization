@@ -31,4 +31,7 @@ parts:
     - file: contents/meta/particle_swarm
     - file: contents/meta/differential_evolution
     - file: contents/meta/constraint_handle
+  - caption: Optimization Problems
+    chapters:
+    - file: contents/problems/newsvendor_problem
 
