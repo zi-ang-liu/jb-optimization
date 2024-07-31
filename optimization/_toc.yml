@@ -20,6 +20,9 @@ parts:
     chapters:
     - file: contents/lp/forms
     - file: contents/lp/piecewise_linear
+  - caption: Graph Theory and Network Optimization
+    chapters:
+    - file: contents/graphs/dijkstra
   - caption: Integer Programming
     chapters:
     - file: contents/ip/dijkstra
