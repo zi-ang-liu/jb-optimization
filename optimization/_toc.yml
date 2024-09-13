@@ -37,4 +37,7 @@ parts:
   - caption: Optimization Problems
     chapters:
     - file: contents/problems/newsvendor_problem
+  - caption: Surrogate
+    chapters:
+    - file: contents/surrogate/sbo
 
