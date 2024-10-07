@@ -4,7 +4,40 @@
 
 $f$が連続関数である区間$[a, b]$が与えられたとき、$f(a)$と$f(b)$が異符号であれば、$f$は$[a, b]$上で少なくとも1つの根を持ちます。この性質は**中間値の定理**により保証されます。
 
-二分法は区間$[a, b]$を
+二分法は区間$[a, b]$を狭めていくことで、根を求めるアルゴリズムです。二分法を用いるためには、$f(a)f(b)<0$であることが必要で、つまり、$f(a)$と$f(b)$が異符号であることが必要です。$f(a)$や$f(b)$が0である場合は、その値が根であるため、計算を打ち切ります。
+
+ここで、$I^{(0)} = [a^{(0)}, b^{(0)}]$を区間とし、$f(a^{(0)})f(b^{(0)})<0$であるとします。$I^{(0)}$の中点を$x^{(0)} = (a^{(0)}+b^{(0)})/2$とします。$f(x^{(0)})$の値が以下の三つの場合に分けられます。
+
+1. $f(x^{(0)}) = 0$の場合、$x^{(0)}$は根であるため、計算を打ち切ります。
+2. $f(x^{(0)})<0$
+3. $f(x^{(0)})>0$
+
+$f(x^{(0)})<0$、または$f(x^{(0)})>0$の場合、必ず$f(a^{(0)})f(x^{(0)})<0$、または$f(b^{(0)})f(x^{(0)})<0$のどちらかが成り立ちます。この性質を利用して、次の区間を選択します。
+
+- もし$f(a^{(0)})f(x^{(0)})<0$であれば、$a^{(1)}=a^{(0)}, b^{(1)}=x^{(0)}$とします。
+- もし$f(b^{(0)})f(x^{(0)})<0$であれば、$a^{(1)}=x^{(0)}, b^{(1)}=b^{(0)}$とします。
+
+$I^{(1)} = [a^{(1)}, b^{(1)}]$を新しい区間として、$f(a^{(1)})f(b^{(1)})<0$であることが保証されます。このように反復計算を行うことで、$I^{(1)}, I^{(2)}, \ldots$と区間を狭めていき、根の近似値を求めることができます。
+
+## アルゴリズム
+
+```{prf:algorithm} Bisection method
+:label: bisection-algorithm
+
+**Inputs:** function $f$, interval $[a, b]$, tolerance $\text{tol}$
+**Output:** interval $[a, b]$, estimate of the root $x$
+
+1. Ensure $f(a)f(b) < 0$
+2. While $b - a > \text{tol}$:
+    1. $x \leftarrow (a + b) / 2$
+    2. If $f(x) = 0$, return $m$
+    3. Else if $f(a)f(x) < 0$, $b \leftarrow x$
+    4. Else, $a \leftarrow x$
+3. Return $a, b, x$
+
+```
+
+## Pythonによる実装
 
 ```python
 def bisection(f, a, b, tol=1e-6):
@@ -24,34 +57,41 @@ def bisection(f, a, b, tol=1e-6):
 
     Returns
     -------
-    tuple
-        A tuple of the form (a, b)
-        where f(a) and f(b) have opposite signs
+    a : float
+        Lower bound of the interval
+    b : float
+        Upper bound of the interval
+    x : float
+        The estimated root
+
     """
 
     if f(a) * f(b) > 0:
         raise ValueError("f(a) and f(b) must have opposite signs")
 
     if f(a) == 0:
-        return a, a
+        return a, a, a
     if f(b) == 0:
-        return b, b
+        return b, b, b
 
+    i = 0
     while b - a > tol:
-        m = (a + b) / 2
-        if f(m) == 0:
-            return m, m
-        elif f(a) * f(m) < 0:
-            b = m
+        x = (a + b) / 2
+        print(f"iter={i}, a={a}, b={b}, x={x}")
+        if f(x) == 0:
+            return x, x, x
+        elif f(a) * f(x) < 0:
+            b = x
         else:
-            a = m
-    return a, b
+            a = x
+        i += 1
+    return a, b, x
 
 
 def f(x):
     return x**2 - 4
 
 
-a, b = bisection(f, 0, 3)
-print(f"a={a}, b={b}")
+a, b, x = bisection(f, 0, 3)
+print(f"Root={x}, Lower bound={a}, Upper bound={b}")
 ```

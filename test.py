@@ -1,20 +1,54 @@
-import numpy as np
-import matplotlib.pyplot as plt
-import scipy.stats as stats
-from scipy.integrate import quad
+def bisection(f, a, b, tol=1e-6):
+    """
+    Bisection method: root finding algorithm
+
+    Parameters
+    ----------
+    f : function
+        The function to find the root of
+    a : float
+        Lower bound of the interval
+    b : float
+        Upper bound of the interval
+    tol : float
+        Tolerance
+
+    Returns
+    -------
+    a : float
+        Lower bound of the interval
+    b : float
+        Upper bound of the interval
+    x : float
+        The estimated root
+
+    """
+
+    if f(a) * f(b) > 0:
+        raise ValueError("f(a) and f(b) must have opposite signs")
+
+    if f(a) == 0:
+        return a, a, a
+    if f(b) == 0:
+        return b, b, b
+
+    i = 0
+    while b - a > tol:
+        x = (a + b) / 2
+        print(f"iter={i}, a={a}, b={b}, x={x}")
+        if f(x) == 0:
+            return x, x, x
+        elif f(a) * f(x) < 0:
+            b = x
+        else:
+            a = x
+        i += 1
+    return a, b, x
 
 
-def newsvendor(mu, sigma, h, p):
-    # optimal order quantity
-    critial_ratio = p / (p + h)
-    Q = stats.norm.ppf(critial_ratio, mu, sigma)
-    return Q
+def f(x):
+    return x**2 - 4
 
 
-h = 0.18
-p = 0.7
-mu = 50
-sigma = 8
-
-Q = newsvendor(mu, sigma, h, p)
-print("Q = {}".format(Q))
+a, b, x = bisection(f, 0, 3)
+print(f"Root={x}, Lower bound={a}, Upper bound={b}")
