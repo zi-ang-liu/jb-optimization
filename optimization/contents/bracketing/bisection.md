@@ -72,18 +72,15 @@ def bisection(f, a, b, tol=1e-6):
     if f(b) == 0:
         return b, b, b
 
-    i = 0
     while b - a > tol:
         x = (a + b) / 2
-        print(f"iter={i}, a={a}, b={b}, x={x}")
         if f(x) == 0:
             return x, x, x
         elif f(a) * f(x) < 0:
             b = x
         else:
             a = x
-        i += 1
-    return a, b, x
+    return a, b, (a + b) / 2
 
 
 def f(x):

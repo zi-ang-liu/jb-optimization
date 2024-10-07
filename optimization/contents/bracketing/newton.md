@@ -58,7 +58,6 @@ def newton(f, df, x0, tol=1e-6):
     x = x0
     while abs(f(x)) > tol:
         x = x - f(x) / df(x)
-        print(f"x={x}")
     return x
 
 
